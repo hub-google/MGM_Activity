@@ -47,16 +47,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (res.success) {
                     let basePath = window.location.pathname.replace('register.html', '');
                     if(!basePath.endsWith('/')) basePath += '/';
-                    const link = `${window.location.origin}${basePath}index.html?ref=${res.uuid}`;
+                    // 確保若是本機開啟 (file://)，依舊能產生出 GitHub Pages 的連結
+                    const origin = window.location.origin === "file://" || window.location.origin === "null" ? "https://hub-google.github.io" : window.location.origin;
+                    const link = `${origin}${basePath}index.html?ref=${res.uuid}`;
+                    
                     document.getElementById('generated-link').value = link;
                     document.getElementById('result-link-container').classList.remove('hidden');
                     showToast('連結產生成功！');
+                    alert('系統提示：資料已成功送到 Google Sheet，並成功產生專屬連結！');
                 } else {
                     showToast(`錯誤: ${res.message}`);
+                    alert(`錯誤: ${res.message}`);
                 }
             } catch (error) {
-                showToast(error.message || '系統發生錯誤，請稍後再試');
+                showToast('發生嚴重連線錯誤');
                 console.error(error);
+                let debugMsg = `【系統錯誤】\n\n錯誤訊息：${error.message}\n\n可能是以下原因：\n1. 如果您是直接點兩下打開網頁(file://)，請改用 GitHub Pages 網址測試，因為瀏覽器會阻擋本機端的跨域請求！\n2. 您的防毒軟體或擋廣告外掛可能阻擋了 Google Apps Script 的連線。\n\n請前往 GitHub Pages 測試：https://hub-google.github.io/MGM_Activity/index.html`;
+                alert(debugMsg);
             } finally {
                 setLoading(btn, false);
             }
