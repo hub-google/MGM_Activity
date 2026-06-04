@@ -3,138 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MGM 人氣招募大賞 - 劍網3風格</title>
+    <title>MGM 人氣招募大賞</title>
     <meta name="description" content="邀請好友，累積人氣，馬上參加專屬 MGM 活動！">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body data-theme="dark">
+<body>
     <div id="toast-container"></div>
     
-    <!-- Top Navbar (jx3gua style) -->
+    <!-- Top Navbar -->
     <header class="jx-header">
         <div class="header-inner">
-            <div class="logo-area">
-                <span class="jx-logo">MGM</span>
-                <span class="jx-sub-logo">人氣招募大賞</span>
+            <div class="header-left">
+                <button class="btn-outline-pill">📖 瓜条</button>
+                <div class="logo-box">
+                    <div class="logo-icon">瓜</div>
+                    <span>JX3瓜田</span>
+                </div>
             </div>
+            
             <nav class="jx-nav">
-                <a href="index.html" class="active">首頁</a>
-                <a href="#rules">活動規則</a>
-                <a href="register.html">前往報名/查詢</a>
+                <a href="index.html" class="active">最新活動</a>
+                <a href="index.html#rules">活動規則</a>
+                <a href="index.html#rewards">獎勵一覽</a>
             </nav>
-            <div class="header-actions">
-                <button id="theme-toggle" class="btn-theme" title="切換深淺色">🌓</button>
+            
+            <div class="header-right">
+                <a href="register.html" class="btn-solid-pill">✍️ 報名/查詢</a>
+                <div class="icon-circle">🔔</div>
+                <div class="icon-circle">📢</div>
+                <button class="btn-outline-pill">⚙️ 设置</button>
             </div>
         </div>
     </header>
 
     <div class="layout-container">
-        <!-- Sidebar -->
-        <aside class="jx-sidebar">
-            <div class="sidebar-box">
-                <div class="box-header">
-                    <span class="icon">📜</span> 最新公告
-                </div>
-                <div class="box-content list-content">
-                    <ul>
-                        <li><span class="tag tag-new">最新</span> 活動正式開啟！</li>
-                        <li><span class="tag tag-hot">火爆</span> 目前最高人氣突破 1,000 點！</li>
-                        <li><span class="tag">提示</span> 每位好友只能點擊一次</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="sidebar-box">
-                <div class="box-header">
-                    <span class="icon">🏆</span> 人氣排行榜
-                </div>
-                <div class="box-content ranking-list">
-                    <div class="rank-item">
-                        <span class="rank-num rank-1">1</span>
-                        <span class="rank-name">神諭★小黑</span>
-                        <span class="rank-score">999 點</span>
-                    </div>
-                    <div class="rank-item">
-                        <span class="rank-num rank-2">2</span>
-                        <span class="rank-name">劍心未老</span>
-                        <span class="rank-score">852 點</span>
-                    </div>
-                    <div class="rank-item">
-                        <span class="rank-num rank-3">3</span>
-                        <span class="rank-name">唐門暗器大師</span>
-                        <span class="rank-score">741 點</span>
+        
+        <!-- Referral Success Box -->
+        <div id="referral-success" class="jx-card hidden" style="background-color: var(--accent-green);">
+            <div class="card-header">
+                <div class="user-info">
+                    <div class="avatar">🎉</div>
+                    <div class="user-meta">
+                        <div class="name" style="color: #000;">點擊成功！</div>
+                        <div class="time">剛剛</div>
                     </div>
                 </div>
             </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="jx-main">
-            <!-- Dynamic Success Message (Shown when referred by someone) -->
-            <div id="referral-success" class="jx-box alert-box hidden">
-                <div class="alert-icon">🎉</div>
-                <div class="alert-text">
-                    <h3 id="referral-message">您已成功為【分享者姓名】增加 1 點人氣！</h3>
-                    <p>您也可以在下方報名，獲取專屬連結，邀請好友賺取豐富獎勵！</p>
-                </div>
+            <div class="card-content">
+                <h3 id="referral-message">您已成功為【分享者姓名】增加 1 點人氣！</h3>
+                <p>您也可以點擊上方的「報名/查詢」，獲取專屬連結，邀請好友賺取豐富獎勵！</p>
             </div>
+        </div>
 
-            <!-- Landing Page Details -->
-            <div class="jx-box hero-banner">
-                <div class="banner-overlay">
-                    <h1>盛夏狂歡，萬人集氣！</h1>
-                    <p>活動時間：2026/06/20 ~ 2026/07/31</p>
-                    <p class="desc">分享專屬連結，邀請各路俠士前來助陣。人氣無上限，極品虛寶與實體周邊等你來拿！</p>
-                    <div style="margin-top: 20px;">
-                        <a href="register.html" class="jx-btn jx-btn-primary">立即前往報名</a>
+        <!-- Main Card 1: Banner -->
+        <div class="jx-card">
+            <div class="card-header">
+                <div class="user-info">
+                    <div class="avatar">🔥</div>
+                    <div class="user-meta">
+                        <div class="name">官方小精靈</div>
+                        <div class="time">活動公告</div>
                     </div>
                 </div>
+                <div class="fav-btn">⭐</div>
             </div>
+            
+            <div class="tag-group">
+                <span class="jx-tag">#熱門活動</span>
+                <span class="jx-tag" style="background-color: var(--accent-yellow);">#福利放送</span>
+            </div>
+            
+            <div class="card-content" style="font-size: 20px; font-weight: 900;">
+                盛夏狂歡，萬人集氣！<br>
+                <span style="font-size: 16px; font-weight: 400;">活動時間：2026/06/20 ~ 2026/07/31</span>
+                <p style="font-size: 15px; font-weight: 500; margin-top: 15px;">分享專屬連結，邀請各路俠士前來助陣。人氣無上限，極品虛寶與實體周邊等你來拿！</p>
+            </div>
+            
+            <hr class="jx-divider">
+            
+            <div class="card-actions">
+                <div class="action-item">👍 999+</div>
+                <div class="action-item">💬 評論</div>
+                <div class="action-item">🔗 分享</div>
+                <div class="action-item report">🏳️ 举報</div>
+            </div>
+        </div>
 
-
-
-            <!-- Activity Details -->
-            <div class="jx-box" id="rewards">
-                <div class="box-header-lg"><span class="title">🎁 豐富獎勵</span></div>
-                <div class="box-content">
-                    <div class="reward-grid">
-                        <div class="reward-item">
-                            <div class="reward-icon">🥇</div>
-                            <h4>人氣第 1 名</h4>
-                            <p>頂級虛寶套裝 + 實體紀念劍匣</p>
-                        </div>
-                        <div class="reward-item">
-                            <div class="reward-icon">🥈</div>
-                            <h4>人氣第 2-5 名</h4>
-                            <p>稀有坐騎 + 紀念滑鼠墊</p>
-                        </div>
-                        <div class="reward-item">
-                            <div class="reward-icon">🎖️</div>
-                            <h4>人氣達 50 點</h4>
-                            <p>參與獎勵序號一組</p>
-                        </div>
+        <!-- Main Card 2: Rewards -->
+        <div class="jx-card" id="rewards">
+            <div class="card-header">
+                <div class="user-info">
+                    <div class="avatar" style="background: var(--accent-yellow);">🎁</div>
+                    <div class="user-meta">
+                        <div class="name">獎勵總覽</div>
                     </div>
                 </div>
             </div>
             
-            <div class="jx-box" id="rules">
-                <div class="box-header-lg"><span class="title">📖 活動規則</span></div>
-                <div class="box-content text-content">
-                    <p>1. 活動時間自 2026/06/20 00:00 起至 2026/07/31 23:59 止。</p>
-                    <p>2. 每位參賽者可產生專屬連結，邀請好友點擊。不限制同一好友重複點擊（開放洗點）。</p>
-                    <p>3. 系統將於活動結束時進行結算，若發生人氣同分的情況，將並列名次。</p>
-                    <p>4. 官方保留隨時修改、變更、暫停或終止本活動內容之權利。</p>
+            <div class="card-content">
+                <ul style="display: flex; flex-direction: column; gap: 15px;">
+                    <li><strong>🥇 人氣第 1 名</strong>：頂級虛寶套裝 + 實體紀念劍匣</li>
+                    <li><strong>🥈 人氣第 2-5 名</strong>：稀有坐騎 + 紀念滑鼠墊</li>
+                    <li><strong>🎖️ 人氣達 50 點</strong>：參與獎勵序號一組</li>
+                </ul>
+            </div>
+            <hr class="jx-divider">
+            <div class="card-actions">
+                <div class="action-item">👍 512</div>
+            </div>
+        </div>
+        
+        <!-- Main Card 3: Rules -->
+        <div class="jx-card" id="rules">
+            <div class="card-header">
+                <div class="user-info">
+                    <div class="avatar" style="background: var(--accent-blue);">📖</div>
+                    <div class="user-meta">
+                        <div class="name">活動規則</div>
+                    </div>
                 </div>
             </div>
-        </main>
+            
+            <div class="card-content">
+                <ol style="padding-left: 20px; display: flex; flex-direction: column; gap: 10px;">
+                    <li>活動時間自 2026/06/20 00:00 起至 2026/07/31 23:59 止。</li>
+                    <li>每位參賽者可產生專屬連結，邀請好友點擊。不限制同一好友重複點擊（開放洗點）。</li>
+                    <li>系統將於活動結束時進行結算，若發生人氣同分的情況，將並列名次。</li>
+                    <li>官方保留隨時修改、變更、暫停或終止本活動內容之權利。</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Big Navigation Buttons -->
+        <div class="bottom-nav">
+            <a href="register.html" class="btn-huge" style="background-color: var(--accent-yellow);">
+                ✍️ 立即報名 / 查詢戰況 →
+            </a>
+        </div>
     </div>
 
-    <footer class="jx-footer">
-        <p>&copy; 2026 MGM 人氣招募大賞. 版權所有.</p>
-    </footer>
+    <div class="decoration-pet"></div>
 
     <script src="js/app.js"></script>
 </body>
