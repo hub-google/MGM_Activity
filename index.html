@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MGM 人氣招募大賞</title>
+    <meta name="description" content="邀請好友，累積人氣，馬上參加專屬 MGM 活動！">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="toast-container"></div>
+    
+    <header class="glass-header">
+        <div class="header-content">
+            <h1 class="logo">MGM <span>活動大賞</span></h1>
+            <button id="theme-toggle" aria-label="切換深淺色">🌓</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero slide-up">
+            <div class="hero-text">
+                <h2>邀請好友，<br><span class="highlight">賺取無限人氣</span></h2>
+                <p>2026/06/20 ~ 2026/07/31，分享專屬連結，好友點擊即可為您增加人氣。沒有上限，現在就開始！</p>
+                <a href="#register-section" class="btn btn-primary">立即產生連結</a>
+            </div>
+            <div class="hero-graphics">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="glass-card mockup-card">
+                    <div class="mockup-header">人氣排行範例</div>
+                    <div class="mockup-row"><span class="rank-badge gold">1</span> 999 點擊</div>
+                    <div class="mockup-row"><span class="rank-badge silver">2</span> 852 點擊</div>
+                    <div class="mockup-row"><span class="rank-badge bronze">3</span> 741 點擊</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Success Message (Shown when referred by someone) -->
+        <section id="referral-success" class="hidden slide-up delay-1">
+            <div class="glass-card success-card">
+                <div class="icon">🎉</div>
+                <h3 id="referral-message">您已成功為【分享者姓名】增加 1 點人氣！</h3>
+                <p>想要自己也來累積人氣嗎？趕快在下方報名！</p>
+            </div>
+        </section>
+
+        <!-- Registration Section -->
+        <section id="register-section" class="form-section slide-up delay-2">
+            <div class="glass-card">
+                <h2>第一步：產生專屬連結</h2>
+                <p class="subtitle">填寫基本資料，取得您的專屬分享連結。</p>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="reg-name">姓名</label>
+                        <input type="text" id="reg-name" required placeholder="請輸入姓名">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-phone">電話號碼</label>
+                        <input type="tel" id="reg-phone" required placeholder="請輸入電話號碼 (例如: 0912345678)">
+                    </div>
+                    <button type="submit" class="btn btn-block btn-primary" id="btn-register">產生連結 <span class="spinner hidden"></span></button>
+                </form>
+
+                <div id="result-link-container" class="hidden result-container">
+                    <h4>您的專屬連結：</h4>
+                    <div class="copy-box">
+                        <input type="text" id="generated-link" readonly>
+                        <button id="btn-copy" class="btn-icon" title="複製連結">📋</button>
+                    </div>
+                    <p class="hint">請複製上方連結傳給好友，每點擊一次即可增加 1 點人氣！</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Query Section -->
+        <section id="query-section" class="form-section slide-up delay-3">
+            <div class="glass-card">
+                <h2>查詢人氣與排名</h2>
+                <p class="subtitle">隨時掌握您的活動戰況！</p>
+                <form id="query-form">
+                    <div class="form-group">
+                        <label for="query-phone">您的電話號碼</label>
+                        <input type="tel" id="query-phone" required placeholder="請輸入當初報名的電話">
+                    </div>
+                    <button type="submit" class="btn btn-secondary btn-block" id="btn-query">查詢戰況 <span class="spinner hidden"></span></button>
+                </form>
+
+                <div id="query-result-container" class="hidden result-container">
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-label">累積人氣</div>
+                            <div class="stat-value highlight" id="stat-clicks">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">目前排名</div>
+                            <div class="stat-value" id="stat-rank">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 MGM 活動大賞. All Rights Reserved.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
