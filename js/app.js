@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (res.success) {
                     let basePath = window.location.pathname.replace('register.html', '');
                     if(!basePath.endsWith('/')) basePath += '/';
-                    const link = `${window.location.origin}${basePath}?ref=${res.uuid}`;
+                    const link = `${window.location.origin}${basePath}index.html?ref=${res.uuid}`;
                     document.getElementById('generated-link').value = link;
                     document.getElementById('result-link-container').classList.remove('hidden');
                     showToast('連結產生成功！');
