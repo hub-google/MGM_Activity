@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>產生連結與查詢 - MGM 人氣招募大賞</title>
+    <meta name="description" content="產生您的專屬推薦連結並查詢戰況！">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-theme="dark">
+    <div id="toast-container"></div>
+    
+    <!-- Top Navbar -->
+    <header class="jx-header">
+        <div class="header-inner">
+            <div class="logo-area">
+                <span class="jx-logo">MGM</span>
+                <span class="jx-sub-logo">人氣招募大賞</span>
+            </div>
+            <nav class="jx-nav">
+                <a href="index.html">首頁</a>
+                <a href="register.html" class="active">前往報名/查詢</a>
+            </nav>
+            <div class="header-actions">
+                <button id="theme-toggle" class="btn-theme" title="切換深淺色">🌓</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout-container" style="display: block; max-width: 800px; margin: 40px auto;">
+        
+        <main class="jx-main">
+            <div class="jx-box form-card" id="register-section">
+                <div class="box-header-lg">
+                    <span class="title">⚔️ 立即參戰：產生專屬招募連結</span>
+                </div>
+                <div class="box-content">
+                    <form id="register-form" class="jx-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reg-name">大俠尊姓大名 (姓名)</label>
+                                <input type="text" id="reg-name" required placeholder="請輸入姓名">
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-phone">聯絡飛鴿 (電話號碼)</label>
+                                <input type="tel" id="reg-phone" required placeholder="例如: 0912345678">
+                            </div>
+                        </div>
+                        <div class="form-action">
+                            <button type="submit" class="jx-btn jx-btn-primary" id="btn-register">產生連結 <span class="spinner hidden"></span></button>
+                        </div>
+                    </form>
+
+                    <div id="result-link-container" class="result-area hidden">
+                        <h4>您的專屬招募連結：</h4>
+                        <div class="copy-box">
+                            <input type="text" id="generated-link" readonly>
+                            <button id="btn-copy" class="jx-btn-icon" title="複製連結">📋</button>
+                        </div>
+                        <p class="hint">請複製上方連結傳給好友，好友點擊即可為您增加 1 點人氣！</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="jx-box form-card" id="query-section">
+                <div class="box-header-lg">
+                    <span class="title">📜 戰況查詢：查詢人氣與排名</span>
+                </div>
+                <div class="box-content">
+                    <form id="query-form" class="jx-form form-inline">
+                        <div class="form-group">
+                            <input type="tel" id="query-phone" required placeholder="請輸入當初報名的電話號碼">
+                        </div>
+                        <button type="submit" class="jx-btn jx-btn-secondary" id="btn-query">查詢戰況 <span class="spinner hidden"></span></button>
+                    </form>
+
+                    <div id="query-result-container" class="result-area hidden">
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <div class="stat-label">累積人氣</div>
+                                <div class="stat-value highlight" id="stat-clicks">0</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">目前排名</div>
+                                <div class="stat-value" id="stat-rank">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="jx-footer">
+        <p>&copy; 2026 MGM 人氣招募大賞. 版權所有.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -45,7 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const res = await fetchAPI({ action: 'register', name, phone });
                 if (res.success) {
-                    const link = `${window.location.origin}${window.location.pathname}?ref=${res.uuid}`;
+                    let basePath = window.location.pathname.replace('register.html', '');
+                    if(!basePath.endsWith('/')) basePath += '/';
+                    const link = `${window.location.origin}${basePath}?ref=${res.uuid}`;
                     document.getElementById('generated-link').value = link;
                     document.getElementById('result-link-container').classList.remove('hidden');
                     showToast('連結產生成功！');

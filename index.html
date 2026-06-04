@@ -21,9 +21,9 @@
                 <span class="jx-sub-logo">人氣招募大賞</span>
             </div>
             <nav class="jx-nav">
-                <a href="#" class="active">首頁</a>
+                <a href="index.html" class="active">首頁</a>
                 <a href="#rules">活動規則</a>
-                <a href="#rewards">獎勵一覽</a>
+                <a href="register.html">前往報名/查詢</a>
             </nav>
             <div class="header-actions">
                 <button id="theme-toggle" class="btn-theme" title="切換深淺色">🌓</button>
@@ -88,67 +88,13 @@
                     <h1>盛夏狂歡，萬人集氣！</h1>
                     <p>活動時間：2026/06/20 ~ 2026/07/31</p>
                     <p class="desc">分享專屬連結，邀請各路俠士前來助陣。人氣無上限，極品虛寶與實體周邊等你來拿！</p>
-                </div>
-            </div>
-
-            <div class="jx-box form-card" id="register-section">
-                <div class="box-header-lg">
-                    <span class="title">⚔️ 立即參戰：產生專屬招募連結</span>
-                </div>
-                <div class="box-content">
-                    <form id="register-form" class="jx-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="reg-name">大俠尊姓大名 (姓名)</label>
-                                <input type="text" id="reg-name" required placeholder="請輸入姓名">
-                            </div>
-                            <div class="form-group">
-                                <label for="reg-phone">聯絡飛鴿 (電話號碼)</label>
-                                <input type="tel" id="reg-phone" required placeholder="例如: 0912345678">
-                            </div>
-                        </div>
-                        <div class="form-action">
-                            <button type="submit" class="jx-btn jx-btn-primary" id="btn-register">產生連結 <span class="spinner hidden"></span></button>
-                        </div>
-                    </form>
-
-                    <div id="result-link-container" class="result-area hidden">
-                        <h4>您的專屬招募連結：</h4>
-                        <div class="copy-box">
-                            <input type="text" id="generated-link" readonly>
-                            <button id="btn-copy" class="jx-btn-icon" title="複製連結">📋</button>
-                        </div>
-                        <p class="hint">請複製上方連結傳給好友，好友點擊即可為您增加 1 點人氣！</p>
+                    <div style="margin-top: 20px;">
+                        <a href="register.html" class="jx-btn jx-btn-primary">立即前往報名</a>
                     </div>
                 </div>
             </div>
 
-            <div class="jx-box form-card" id="query-section">
-                <div class="box-header-lg">
-                    <span class="title">📜 戰況查詢：查詢人氣與排名</span>
-                </div>
-                <div class="box-content">
-                    <form id="query-form" class="jx-form form-inline">
-                        <div class="form-group">
-                            <input type="tel" id="query-phone" required placeholder="請輸入當初報名的電話號碼">
-                        </div>
-                        <button type="submit" class="jx-btn jx-btn-secondary" id="btn-query">查詢戰況 <span class="spinner hidden"></span></button>
-                    </form>
 
-                    <div id="query-result-container" class="result-area hidden">
-                        <div class="stats-grid">
-                            <div class="stat-box">
-                                <div class="stat-label">累積人氣</div>
-                                <div class="stat-value highlight" id="stat-clicks">0</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-label">目前排名</div>
-                                <div class="stat-value" id="stat-rank">-</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Activity Details -->
             <div class="jx-box" id="rewards">
