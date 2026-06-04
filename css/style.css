@@ -423,7 +423,34 @@ ul { list-style: none; }
     background: url('../images/pet_nobg.png') no-repeat center bottom;
     background-size: contain;
     z-index: 10;
-    pointer-events: none;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.modal-overlay.hidden {
+    display: none;
+}
+.modal-content {
+    background: var(--bg-panel);
+    border: 3px solid var(--border-color);
+    box-shadow: 6px 6px 0 var(--border-color);
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+.modal-content h3 {
+    margin-top: 0;
+    color: var(--accent-red);
 }
 
 .hidden { display: none !important; }

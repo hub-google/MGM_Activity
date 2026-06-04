@@ -8,7 +8,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
     <div id="toast-container"></div>
@@ -122,6 +122,19 @@
 
     <div class="decoration-pet"></div>
 
-    <script src="js/app.js?v=3"></script>
+    <!-- Modal Dialog for Generated Link -->
+    <div id="link-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3>🎉 專屬連結產生成功！</h3>
+            <p>請複製下方連結，傳送給您的好友。<br>當好友透過連結進入，系統就會為您增加 1 點人氣！</p>
+            <div class="copy-box" style="margin: 20px 0;">
+                <input type="text" id="modal-generated-link" class="jx-input" readonly>
+                <button id="modal-btn-copy" class="btn-copy" style="white-space: nowrap;">複製</button>
+            </div>
+            <button id="btn-close-modal" class="btn-outline-pill" style="width: 100%; border: 3px solid var(--text-main); background: white;">關閉</button>
+        </div>
+    </div>
+
+    <script src="js/app.js?v=4"></script>
 </body>
 </html>

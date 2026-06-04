@@ -8,15 +8,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.setAttribute("data-theme", currentTheme);
 
     // Toggle theme
-    themeToggle.addEventListener('click', () => {
-        if (document.body.getAttribute("data-theme") === "dark") {
-            document.body.setAttribute("data-theme", "light");
-            localStorage.setItem("theme", "light");
-        } else {
-            document.body.setAttribute("data-theme", "dark");
-            localStorage.setItem("theme", "dark");
-        }
-    });
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            if (document.body.getAttribute("data-theme") === "dark") {
+                document.body.setAttribute("data-theme", "light");
+                localStorage.setItem("theme", "light");
+            } else {
+                document.body.setAttribute("data-theme", "dark");
+                localStorage.setItem("theme", "dark");
+            }
+        });
+    }
 
     // Check URL for referral UUID
     const urlParams = new URLSearchParams(window.location.search);
@@ -51,10 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     const origin = window.location.origin === "file://" || window.location.origin === "null" ? "https://hub-google.github.io" : window.location.origin;
                     const link = `${origin}${basePath}index.html?ref=${res.uuid}`;
                     
-                    document.getElementById('generated-link').value = link;
-                    document.getElementById('result-link-container').classList.remove('hidden');
-                    showToast('連結產生成功！');
-                    alert('系統提示：資料已成功送到 Google Sheet，並成功產生專屬連結！');
+                    document.getElementById('modal-generated-link').value = link;
+                    document.getElementById('link-modal').classList.remove('hidden');
+                    // 隱藏行內的舊版提示
+                    const oldContainer = document.getElementById('result-link-container');
+                    if (oldContainer) oldContainer.classList.add('hidden');
                 } else {
                     showToast(`錯誤: ${res.message}`);
                     alert(`錯誤: ${res.message}`);
@@ -67,6 +70,31 @@ document.addEventListener('DOMContentLoaded', () => {
             } finally {
                 setLoading(btn, false);
             }
+        });
+    }
+
+    // Modal Copy Link functionality
+    const btnModalCopy = document.getElementById('modal-btn-copy');
+    if (btnModalCopy) {
+        btnModalCopy.addEventListener('click', () => {
+            const linkInput = document.getElementById('modal-generated-link');
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(linkInput.value).then(() => {
+                showToast('連結已複製！');
+                btnModalCopy.innerText = "已複製！";
+                setTimeout(() => btnModalCopy.innerText = "複製", 2000);
+            }).catch(() => {
+                showToast('複製失敗，請手動複製');
+            });
+        });
+    }
+
+    // Modal Close functionality
+    const btnCloseModal = document.getElementById('btn-close-modal');
+    if (btnCloseModal) {
+        btnCloseModal.addEventListener('click', () => {
+            document.getElementById('link-modal').classList.add('hidden');
         });
     }
 
