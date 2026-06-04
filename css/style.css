@@ -52,20 +52,23 @@ ul { list-style: none; }
 }
 
 .header-inner {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
-    height: 64px;
+    min-height: 70px;
     display: flex;
     align-items: center;
-    padding: 0 20px;
+    padding: 10px 20px;
     justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 /* Header Left: Logo area */
 .header-left {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
+    white-space: nowrap;
 }
 .btn-outline-pill {
     display: inline-flex;
@@ -81,6 +84,7 @@ ul { list-style: none; }
     cursor: pointer;
     box-shadow: 2px 2px 0 var(--shadow-color);
     transition: transform 0.1s, box-shadow 0.1s;
+    white-space: nowrap;
 }
 .btn-outline-pill:active {
     transform: translate(2px, 2px);
@@ -89,10 +93,11 @@ ul { list-style: none; }
 .logo-box {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 24px;
+    gap: 8px;
+    font-size: 18px;
     font-weight: 900;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
 }
 .logo-icon {
     width: 36px;
@@ -103,20 +108,21 @@ ul { list-style: none; }
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
 }
 
 /* Header Center: Nav */
 .jx-nav {
     display: flex;
-    gap: 20px;
+    gap: 15px;
     align-items: center;
+    white-space: nowrap;
 }
 .jx-nav a {
     font-weight: 700;
-    font-size: 16px;
-    padding: 8px 12px;
+    font-size: 15px;
+    padding: 8px 10px;
     position: relative;
 }
 .jx-nav a:hover {
@@ -128,7 +134,7 @@ ul { list-style: none; }
     bottom: 2px;
     left: 10%;
     width: 80%;
-    height: 8px;
+    height: 6px;
     background-color: var(--accent-green);
     z-index: -1;
     border-radius: 4px;
@@ -138,14 +144,15 @@ ul { list-style: none; }
 .header-right {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+    white-space: nowrap;
 }
 .btn-solid-pill {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     height: 36px;
-    padding: 0 20px;
+    padding: 0 16px;
     border: var(--border-width) solid var(--border-color);
     border-radius: var(--radius-pill);
     background-color: var(--border-color);
@@ -155,6 +162,7 @@ ul { list-style: none; }
     cursor: pointer;
     box-shadow: 2px 2px 0 rgba(0,0,0,0.5);
     transition: transform 0.1s, box-shadow 0.1s;
+    white-space: nowrap;
 }
 .btn-solid-pill:active {
     transform: translate(2px, 2px);
@@ -410,9 +418,9 @@ ul { list-style: none; }
     position: fixed;
     right: 20px;
     bottom: 0;
-    width: 120px;
-    height: 120px;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="80">🦊</text></svg>') no-repeat center bottom;
+    width: 150px;
+    height: 150px;
+    background: url('../images/pet_nobg.png') no-repeat center bottom;
     background-size: contain;
     z-index: 10;
     pointer-events: none;
