@@ -53,12 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 await supabaseFetch('MGM', {
                     method: 'POST',
                     body: JSON.stringify({
-                        Space: space,
-                        UUID: uuid,
-                        Name: name,
-                        Phone: phone,
-                        CreatedAt: createdAt,
-                        ClickCount: 0
+                        space: space,
+                        uuid: uuid,
+                        name: name,
+                        phone: phone,
+                        created_at: createdAt,
+                        click_count: 0
                     })
                 });
 
@@ -139,25 +139,25 @@ document.addEventListener('DOMContentLoaded', () => {
             setLoading(btn, true);
 
             try {
-                const data = await supabaseFetch(`MGM?Phone=eq.${encodeURIComponent(phone)}`);
+                const data = await supabaseFetch(`MGM?phone=eq.${encodeURIComponent(phone)}`);
                 if (data.length > 0) {
                     const userRow = data[0];
-                    const allUsers = await supabaseFetch('MGM?select=Phone,ClickCount&order=ClickCount.desc');
+                    const allUsers = await supabaseFetch('MGM?select=phone,click_count&order=click_count.desc');
                     let rank = -1;
                     let rankCounter = 1;
                     let prevClicks = -1;
                     for (let i = 0; i < allUsers.length; i++) {
-                        if (allUsers[i].ClickCount !== prevClicks) {
+                        if (allUsers[i].click_count !== prevClicks) {
                             rankCounter = i + 1;
-                            prevClicks = allUsers[i].ClickCount;
+                            prevClicks = allUsers[i].click_count;
                         }
-                        if (allUsers[i].Phone === phone) {
+                        if (allUsers[i].phone === phone) {
                             rank = rankCounter;
                             break;
                         }
                     }
 
-                    document.getElementById('stat-clicks').innerText = userRow.ClickCount;
+                    document.getElementById('stat-clicks').innerText = userRow.click_count;
                     document.getElementById('stat-rank').innerText = rank !== -1 ? rank : '-';
                     document.getElementById('query-result-container').classList.remove('hidden');
                     showToast('查詢成功！');
@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadLeaderboard() {
     try {
-        const data = await supabaseFetch('MGM?select=Name,ClickCount&order=ClickCount.desc&limit=10');
+        const data = await supabaseFetch('MGM?select=name,click_count&order=click_count.desc&limit=10');
         const loading = document.getElementById('leaderboard-loading');
         const container = document.getElementById('leaderboard-container');
         
@@ -194,18 +194,18 @@ async function loadLeaderboard() {
             let prevClicks = -1;
             
             data.forEach((row, index) => {
-                if (row.ClickCount !== prevClicks) {
+                if (row.click_count !== prevClicks) {
                     rank = index + 1;
-                    prevClicks = row.ClickCount;
+                    prevClicks = row.click_count;
                 }
                 const rankClass = rank <= 3 ? `rank-${rank}` : '';
-                const maskedName = maskName(row.Name);
+                const maskedName = maskName(row.name);
                 
                 html += `
                     <div class="leaderboard-item ${rankClass}">
                         <div class="rank-badge">${rank}</div>
                         <div class="leaderboard-name">${maskedName}</div>
-                        <div class="leaderboard-clicks">${row.ClickCount} 點</div>
+                        <div class="leaderboard-clicks">${row.click_count} 點</div>
                     </div>
                 `;
             });
@@ -224,16 +224,15 @@ async function loadLeaderboard() {
 
 async function processClick(uuid) {
     try {
-        const data = await supabaseFetch(`MGM?UUID=eq.${encodeURIComponent(uuid)}`);
-        if (data.length > 0) {
-            const currentClicks = data[0].ClickCount || 0;
-            const name = data[0].Name;
-            
-            await supabaseFetch(`MGM?UUID=eq.${encodeURIComponent(uuid)}`, {
-                method: 'PATCH',
-                body: JSON.stringify({ ClickCount: currentClicks + 1 })
-            });
-            
+        // 使用 Supabase RPC 來進行原子化點擊加一，避免併發問題
+        const result = await supabaseFetch('rpc/increment_click', {
+            method: 'POST',
+            body: JSON.stringify({ target_uuid: uuid })
+        });
+        
+        // 如果找不到該 UUID，RPC 會回傳空陣列
+        if (result && result.length > 0 && result[0].name) {
+            const name = result[0].name;
             const msgElement = document.getElementById('referral-message');
             if(msgElement) {
                 msgElement.innerText = `您已成功為【${name}】增加 1 點人氣！`;
