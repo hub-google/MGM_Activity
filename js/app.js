@@ -146,7 +146,46 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Load Leaderboard on page load if container exists
+    if (document.getElementById('leaderboard-container')) {
+        loadLeaderboard();
+    }
 });
+
+async function loadLeaderboard() {
+    try {
+        const res = await fetchAPI({ action: 'leaderboard' });
+        const loading = document.getElementById('leaderboard-loading');
+        const container = document.getElementById('leaderboard-container');
+        
+        if (loading) loading.classList.add('hidden');
+        if (!container) return;
+
+        if (res.success && res.leaderboard && res.leaderboard.length > 0) {
+            let html = '';
+            res.leaderboard.forEach((item, index) => {
+                const rankClass = item.rank <= 3 ? `rank-${item.rank}` : '';
+                html += `
+                    <div class="leaderboard-item ${rankClass}">
+                        <div class="rank-badge">${item.rank}</div>
+                        <div class="leaderboard-name">${item.name}</div>
+                        <div class="leaderboard-clicks">${item.clicks} 點</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            container.classList.remove('hidden');
+        } else {
+            container.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 10px;">目前尚無排行榜資料</div>';
+            container.classList.remove('hidden');
+        }
+    } catch (error) {
+        console.error("Failed to load leaderboard:", error);
+        const loading = document.getElementById('leaderboard-loading');
+        if (loading) loading.innerHTML = '<div style="text-align: center; color: var(--accent-red); padding: 10px;">載入失敗，請稍後再試</div>';
+    }
+}
 
 async function processClick(uuid) {
     try {

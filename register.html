@@ -113,6 +113,29 @@
             </div>
         </div>
 
+        <!-- Leaderboard Card -->
+        <div class="jx-card">
+            <div class="card-header">
+                <div class="user-info">
+                    <div class="avatar" style="background: var(--accent-yellow);">🏆</div>
+                    <div class="user-meta">
+                        <div class="name">人氣排行榜</div>
+                        <div class="time">Top 10 即時戰況</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-content">
+                <div id="leaderboard-loading" style="text-align: center; padding: 20px;">
+                    <span class="spinner" style="border-top-color: var(--accent-red); width: 24px; height: 24px;"></span>
+                    <div style="margin-top: 10px; font-weight: 700; color: var(--text-muted);">載入排行榜中...</div>
+                </div>
+                <div id="leaderboard-container" class="leaderboard-list hidden">
+                    <!-- Leaderboard items will be injected here by app.js -->
+                </div>
+            </div>
+        </div>
+
         <div class="bottom-nav">
             <a href="index.html" class="btn-huge">
                 ← 回到上一頁
