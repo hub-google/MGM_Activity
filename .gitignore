@@ -1,0 +1,4 @@
+backend/
+node_modules/
+.env
+系統需求規格書(SRS).md

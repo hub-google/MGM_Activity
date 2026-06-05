@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>產生連結與查詢 - 台積電團險保戶專屬活動</title>
+    <meta name="description" content="產生您的專屬推薦連結並查詢戰況！">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="css/style.css?v=4">
+</head>
+<body>
+    <div id="toast-container"></div>
+    
+    <!-- Top Navbar -->
+    <header class="jx-header">
+        <div class="header-inner">
+            <div class="header-left">
+                <a href="index.html" class="logo-box" style="text-decoration: none; color: inherit;">
+                    <div class="logo-icon" style="font-size: 14px;">KGI</div>
+                    <span>台積電團險保戶專屬活動</span>
+                </a>
+            </div>
+            
+            <div class="header-right">
+                <a href="index.html" class="btn-outline-pill">🏠 活動首頁</a>
+                <a href="register.html" class="btn-solid-pill" style="background-color: var(--text-main);">✍️ 報名 / 查詢</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout-container">
+        
+        <!-- Registration Form Card -->
+        <div class="jx-card">
+            <div class="card-header">
+                <div class="user-info">
+                    <div class="avatar" style="background: var(--accent-red);">🚀</div>
+                    <div class="user-meta">
+                        <div class="name">立即報名</div>
+                        <div class="time">產生專屬招募連結</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-content">
+                <form id="register-form" class="jx-form">
+                    <div class="form-group">
+                        <label for="reg-space">請輸入工作地點</label>
+                        <input type="text" id="reg-space" class="jx-input" required placeholder="例如: F12">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-name">請輸入姓名</label>
+                        <input type="text" id="reg-name" class="jx-input" required placeholder="請輸入姓名">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-phone">請輸入聯絡電話</label>
+                        <input type="tel" id="reg-phone" class="jx-input" required placeholder="例如: 0912345678">
+                    </div>
+                    
+                    <button type="submit" class="btn-huge" style="width: 100%; margin-top: 10px; background-color: var(--accent-red);" id="btn-register">
+                        產生專屬連結 <span class="spinner hidden"></span>
+                    </button>
+                </form>
+
+                <div id="result-link-container" class="result-area hidden">
+                    <h4>您的專屬招募連結：</h4>
+                    <div class="copy-box">
+                        <input type="text" id="generated-link" class="jx-input" readonly>
+                        <button id="btn-copy" class="btn-copy" title="複製連結">複製</button>
+                    </div>
+                    <p style="font-size: 13px; font-weight: bold; color: var(--text-muted);">請複製上方連結傳給好友，好友點擊即可為您增加 1 點人氣！</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Query Form Card -->
+        <div class="jx-card">
+            <div class="card-header">
+                <div class="user-info">
+                    <div class="avatar" style="background: var(--accent-blue);">📊</div>
+                    <div class="user-meta">
+                        <div class="name">進度查詢</div>
+                        <div class="time">查詢累積人氣與排名</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-content">
+                <form id="query-form" class="jx-form" style="display: flex; gap: 10px; align-items: flex-end;">
+                    <div class="form-group" style="flex: 1; margin: 0;">
+                        <label for="query-phone">請輸入報名的電話號碼</label>
+                        <input type="tel" id="query-phone" class="jx-input" required placeholder="例如: 0912345678">
+                    </div>
+                    <button type="submit" class="btn-outline-pill" style="height: 44px; padding: 0 30px; background-color: var(--accent-blue);" id="btn-query">
+                        查詢 <span class="spinner hidden"></span>
+                    </button>
+                </form>
+
+                <div id="query-result-container" class="result-area hidden" style="background-color: var(--bg-main);">
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-label">累積人氣</div>
+                            <div class="stat-value" id="stat-clicks">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">目前排名</div>
+                            <div class="stat-value" style="color: var(--accent-blue);" id="stat-rank">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Card -->
+        <div class="jx-card">
+            <div class="card-header">
+                <div class="user-info">
+                    <div class="avatar" style="background: var(--accent-yellow);">🏆</div>
+                    <div class="user-meta">
+                        <div class="name">人氣排行榜</div>
+                        <div class="time">Top 10 即時戰況</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-content">
+                <div id="leaderboard-loading" style="text-align: center; padding: 20px;">
+                    <span class="spinner" style="border-top-color: var(--accent-red); width: 24px; height: 24px;"></span>
+                    <div style="margin-top: 10px; font-weight: 700; color: var(--text-muted);">載入排行榜中...</div>
+                </div>
+                <div id="leaderboard-container" class="leaderboard-list hidden">
+                    <!-- Leaderboard items will be injected here by app.js -->
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <a href="index.html" class="btn-huge">
+                ← 回到上一頁
+            </a>
+        </div>
+    </div>
+
+    <div class="decoration-pet"></div>
+
+    <!-- Modal Dialog for Generated Link -->
+    <div id="link-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3>🎉 專屬連結產生成功！</h3>
+            <p>請複製下方連結，傳送給您的好友。<br>當好友透過連結進入，系統就會為您增加 1 點人氣！</p>
+            <div class="copy-box" style="margin: 20px 0;">
+                <input type="text" id="modal-generated-link" class="jx-input" readonly>
+                <button id="modal-btn-copy" class="btn-copy" style="white-space: nowrap;">複製</button>
+            </div>
+            <button id="btn-close-modal" class="btn-outline-pill" style="width: 100%; border: 3px solid var(--text-main); background: white;">關閉</button>
+        </div>
+    </div>
+
+    <!-- FingerprintJS for Anti-Fraud -->
+    <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
+    <script src="js/app.js?v=4"></script>
+</body>
+</html>

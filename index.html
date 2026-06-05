@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MGM 人氣招募大賞 - 台積電團險保戶專屬活動</title>
+    <meta name="description" content="邀請好友，累積人氣，馬上參加專屬 MGM 活動！">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="css/style.css?v=4">
+</head>
+<body>
+    <div id="toast-container"></div>
+    
+    <!-- Top Navbar -->
+    <header class="jx-header">
+        <div class="header-inner">
+            <div class="header-left">
+                <a href="index.html" class="logo-box" style="text-decoration: none; color: inherit;">
+                    <div class="logo-icon" style="font-size: 14px;">KGI</div>
+                    <span>台積電團險保戶專屬活動</span>
+                </a>
+            </div>
+            
+            <div class="header-right">
+                <a href="index.html" class="btn-outline-pill">🏠 活動首頁</a>
+                <a href="register.html" class="btn-solid-pill" style="background-color: var(--text-main);">✍️ 報名 / 查詢</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout-container">
+        
+        <!-- Videos Card -->
+        <div class="jx-card">
+            <div class="card-content" style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+                <h3 class="video-title">活動宣傳影片 1</h3>
+                <iframe width="100%" height="315" style="max-width: 560px; border-radius: 8px;" src="https://www.youtube.com/embed/09839DpTctU?si=EQKMIG_9juGSerMD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <hr class="jx-divider" style="width: 100%; border-top: 2px dashed #e0e0e0; margin: 10px 0;">
+                <h3 class="video-title">活動宣傳影片 2</h3>
+                <iframe width="100%" height="315" style="max-width: 560px; border-radius: 8px;" src="https://www.youtube.com/embed/fJ9rUzIMcZQ?si=mJYWoUxFCcJzaJRO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <!-- Referral Success Box -->
+        <div id="referral-success" class="jx-card hidden" style="background-color: var(--accent-green);">
+            <div class="card-header">
+                <div class="user-info">
+                    <div class="avatar">🎉</div>
+                    <div class="user-meta">
+                        <div class="name" style="color: #000;">點擊成功！</div>
+                        <div class="time">剛剛</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-content">
+                <h3 id="referral-message">您已成功為【分享者姓名】增加 1 點人氣！</h3>
+                <p>您也可以點擊上方的「報名/查詢」，獲取專屬連結，邀請好友賺取豐富獎勵！</p>
+            </div>
+        </div>
+
+        <!-- Main Card 1: Banner -->
+        <div class="jx-card">
+            <div class="card-header">
+                <div class="user-info">
+                    <div class="avatar">🔥</div>
+                    <div class="user-meta">
+                        <div class="name">活動小組</div>
+                        <div class="time">活動公告</div>
+                    </div>
+                </div>
+                <div class="fav-btn">⭐</div>
+            </div>
+            
+            <div class="tag-group">
+                <span class="jx-tag">#熱門活動</span>
+                <span class="jx-tag" style="background-color: var(--accent-yellow);">#限時回饋</span>
+            </div>
+            
+            <div class="card-content" style="font-size: 20px; font-weight: 900;">
+                台積電團險保戶專屬活動，熱烈展開！<br>
+                <span style="font-size: 16px; font-weight: 400;">活動時間：2026/06/20 ~ 2026/07/31</span>
+                <p style="font-size: 15px; font-weight: 500; margin-top: 15px;">分享專屬連結，邀請好友一同參與。人氣無上限，豐富精美獎品等您來拿！</p>
+            </div>
+            
+
+        </div>
+
+        <!-- Main Card 2: Rewards -->
+        <div class="jx-card" id="rewards">
+            <div class="card-header">
+                <div class="user-info">
+                    <div class="avatar" style="background: var(--accent-yellow);">🎁</div>
+                    <div class="user-meta">
+                        <div class="name">獎勵總覽</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-content">
+                <ul style="display: flex; flex-direction: column; gap: 15px;">
+                    <li><strong>🥇 人氣第 1 名</strong>：iPhone 15 Pro + 專屬紀念品</li>
+                    <li><strong>🥈 人氣第 2-5 名</strong>：Apple Watch + 紀念滑鼠墊</li>
+                    <li><strong>🎖️ 人氣達 50 點</strong>：超商電子禮券 100 元</li>
+                </ul>
+            </div>
+
+        </div>
+        
+        <!-- Main Card 3: Rules -->
+        <div class="jx-card" id="rules">
+            <div class="card-header">
+                <div class="user-info">
+                    <div class="avatar" style="background: var(--accent-blue);">📖</div>
+                    <div class="user-meta">
+                        <div class="name">活動規則</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-content">
+                <ol style="padding-left: 20px; display: flex; flex-direction: column; gap: 10px;">
+                    <li>活動時間自 2026/06/20 00:00 起至 2026/07/31 23:59 止。</li>
+                    <li>每位參與者可產生專屬連結，邀請好友點擊。不限制同一好友重複點擊（可重複累積）。</li>
+                    <li>系統將於活動結束時進行結算，若發生人氣同分的情況，將並列名次。</li>
+                    <li>官方保留隨時修改、變更、暫停或終止本活動內容之權利。</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Big Navigation Buttons -->
+        <div class="bottom-nav">
+            <a href="register.html" class="btn-huge" style="background-color: var(--accent-yellow);">
+                ✍️ 立即報名 / 查詢進度 →
+            </a>
+        </div>
+    </div>
+
+    <!-- FingerprintJS for Anti-Fraud -->
+    <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
+    <script src="js/app.js?v=4"></script>
+</body>
+</html>
