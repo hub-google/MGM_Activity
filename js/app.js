@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const refUuid = urlParams.get('ref');
     
     if (refUuid) {
-        processClick(refUuid);
+        initFingerprintAndProcess(refUuid);
     }
 
     // Registration Form
@@ -58,7 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         name: name,
                         phone: phone,
                         created_at: createdAt,
-                        click_count: 0
+                        click_count: 0,
+                        stay_3m_count: 0
                     })
                 });
 
@@ -222,15 +223,45 @@ async function loadLeaderboard() {
     }
 }
 
-async function processClick(uuid) {
+async function initFingerprintAndProcess(uuid) {
     try {
-        // 使用 Supabase RPC 來進行原子化點擊加一，避免併發問題
+        let visitorId = localStorage.getItem('fp_visitor_id');
+        if (!visitorId) {
+            const fpPromise = window.FingerprintJS ? window.FingerprintJS.load() : null;
+            if (fpPromise) {
+                const fp = await fpPromise;
+                const result = await fp.get();
+                visitorId = result.visitorId;
+                localStorage.setItem('fp_visitor_id', visitorId);
+            } else {
+                visitorId = generateUUID(); // Fallback
+            }
+        }
+        
+        processClick(uuid, visitorId);
+        
+        // 啟動 3 分鐘 (180,000 毫秒) 的計時器
+        setTimeout(() => {
+            processStay(uuid, visitorId);
+        }, 180000);
+        
+    } catch (e) {
+        console.error("Fingerprint error:", e);
+        const fallbackId = generateUUID();
+        processClick(uuid, fallbackId);
+        setTimeout(() => processStay(uuid, fallbackId), 180000);
+    }
+}
+
+async function processClick(uuid, visitorId) {
+    try {
+        // 使用 Supabase RPC 來進行原子化點擊加一，並記錄 visitor_id 避免重複
         const result = await supabaseFetch('rpc/increment_click', {
             method: 'POST',
-            body: JSON.stringify({ target_uuid: uuid })
+            body: JSON.stringify({ target_uuid: uuid, v_id: visitorId })
         });
         
-        // 如果找不到該 UUID，RPC 會回傳空陣列
+        // 如果找不到該 UUID 或重複點擊，RPC 可能會回傳空陣列
         if (result && result.length > 0 && result[0].name) {
             const name = result[0].name;
             const msgElement = document.getElementById('referral-message');
@@ -239,10 +270,23 @@ async function processClick(uuid) {
                 document.getElementById('referral-success').classList.remove('hidden');
             }
         } else {
-            console.log("Click tracking failed or inactive");
+            console.log("Click tracking failed, inactive, or already clicked");
         }
     } catch (error) {
         console.error("Failed to track click:", error);
+    }
+}
+
+async function processStay(uuid, visitorId) {
+    try {
+        // 使用 Supabase RPC 來進行原子化加一，並記錄 visitor_id 避免重複
+        const result = await supabaseFetch('rpc/increment_stay', {
+            method: 'POST',
+            body: JSON.stringify({ target_uuid: uuid, v_id: visitorId })
+        });
+        console.log("3分鐘停留追蹤成功");
+    } catch (error) {
+        console.error("Failed to track 3 min stay:", error);
     }
 }
 
