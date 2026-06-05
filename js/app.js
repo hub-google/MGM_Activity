@@ -33,11 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (registerForm) {
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const space = document.getElementById('reg-space').value.trim();
             const name = document.getElementById('reg-name').value.trim();
             const phone = document.getElementById('reg-phone').value.trim();
             const btn = document.getElementById('btn-register');
             
-            if (!name || !phone) {
+            if (!space || !name || !phone) {
                 showToast('請填寫完整資訊');
                 return;
             }
@@ -45,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setLoading(btn, true);
 
             try {
-                const res = await fetchAPI({ action: 'register', name, phone });
+                const res = await fetchAPI({ action: 'register', space, name, phone });
                 if (res.success) {
                     let basePath = window.location.pathname.replace('register.html', '');
                     if(!basePath.endsWith('/')) basePath += '/';
