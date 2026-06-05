@@ -1,5 +1,5 @@
-// 請將下方的網址替換成您的 Google Apps Script 網頁應用程式網址 (Web App URL)
-const API_URL = "https://script.google.com/macros/s/AKfycbxtpNw4kOonP2Uh6Jg89LsHtHrqQUBqbbdZNO0DUBn67-GTi-MO3ECBHZnVx7e8UwFi/exec"; 
+const SUPABASE_URL = "https://unapiwajmgqqtdkixaab.supabase.co";
+const SUPABASE_KEY = "sb_publishable_L09XC4Tekm6cZaPTTczm3g_Aap-SOSy";
 
 document.addEventListener('DOMContentLoaded', () => {
     // Theme setup
@@ -46,27 +46,36 @@ document.addEventListener('DOMContentLoaded', () => {
             setLoading(btn, true);
 
             try {
-                const res = await fetchAPI({ action: 'register', space, name, phone });
-                if (res.success) {
-                    let basePath = window.location.pathname.replace('register.html', '');
-                    if(!basePath.endsWith('/')) basePath += '/';
-                    // 確保若是本機開啟 (file://)，依舊能產生出 GitHub Pages 的連結
-                    const origin = window.location.origin === "file://" || window.location.origin === "null" ? "https://hub-google.github.io" : window.location.origin;
-                    const link = `${origin}${basePath}index.html?ref=${res.uuid}`;
-                    
-                    document.getElementById('modal-generated-link').value = link;
-                    document.getElementById('link-modal').classList.remove('hidden');
-                    // 隱藏行內的舊版提示
-                    const oldContainer = document.getElementById('result-link-container');
-                    if (oldContainer) oldContainer.classList.add('hidden');
-                } else {
-                    showToast(`錯誤: ${res.message}`);
-                    alert(`錯誤: ${res.message}`);
-                }
+                const uuid = generateUUID();
+                const now = new Date();
+                const createdAt = new Date(now.getTime() - (now.getTimezoneOffset() * 60000)).toISOString().slice(0, 19).replace('T', ' ');
+
+                await supabaseFetch('MGM', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        Space: space,
+                        UUID: uuid,
+                        Name: name,
+                        Phone: phone,
+                        CreatedAt: createdAt,
+                        ClickCount: 0
+                    })
+                });
+
+                let basePath = window.location.pathname.replace('register.html', '');
+                if(!basePath.endsWith('/')) basePath += '/';
+                const origin = window.location.origin === "file://" || window.location.origin === "null" ? "https://hub-google.github.io" : window.location.origin;
+                const link = `${origin}${basePath}index.html?ref=${uuid}`;
+                
+                document.getElementById('modal-generated-link').value = link;
+                document.getElementById('link-modal').classList.remove('hidden');
+                const oldContainer = document.getElementById('result-link-container');
+                if (oldContainer) oldContainer.classList.add('hidden');
+                
             } catch (error) {
                 showToast('發生嚴重連線錯誤');
                 console.error(error);
-                let debugMsg = `【系統錯誤】\n\n錯誤訊息：${error.message}\n\n可能是以下原因：\n1. 如果您是直接點兩下打開網頁(file://)，請改用 GitHub Pages 網址測試，因為瀏覽器會阻擋本機端的跨域請求！\n2. 您的防毒軟體或擋廣告外掛可能阻擋了 Google Apps Script 的連線。\n\n請前往 GitHub Pages 測試：https://hub-google.github.io/MGM_Activity/index.html`;
+                let debugMsg = `【系統錯誤】\n\n錯誤訊息：${error.message}`;
                 alert(debugMsg);
             } finally {
                 setLoading(btn, false);
@@ -130,14 +139,30 @@ document.addEventListener('DOMContentLoaded', () => {
             setLoading(btn, true);
 
             try {
-                const res = await fetchAPI({ action: 'query', phone });
-                if (res.success) {
-                    document.getElementById('stat-clicks').innerText = res.clicks;
-                    document.getElementById('stat-rank').innerText = res.rank;
+                const data = await supabaseFetch(`MGM?Phone=eq.${encodeURIComponent(phone)}`);
+                if (data.length > 0) {
+                    const userRow = data[0];
+                    const allUsers = await supabaseFetch('MGM?select=Phone,ClickCount&order=ClickCount.desc');
+                    let rank = -1;
+                    let rankCounter = 1;
+                    let prevClicks = -1;
+                    for (let i = 0; i < allUsers.length; i++) {
+                        if (allUsers[i].ClickCount !== prevClicks) {
+                            rankCounter = i + 1;
+                            prevClicks = allUsers[i].ClickCount;
+                        }
+                        if (allUsers[i].Phone === phone) {
+                            rank = rankCounter;
+                            break;
+                        }
+                    }
+
+                    document.getElementById('stat-clicks').innerText = userRow.ClickCount;
+                    document.getElementById('stat-rank').innerText = rank !== -1 ? rank : '-';
                     document.getElementById('query-result-container').classList.remove('hidden');
                     showToast('查詢成功！');
                 } else {
-                    showToast(`錯誤: ${res.message}`);
+                    showToast(`錯誤: 找不到此電話的報名紀錄`);
                 }
             } catch (error) {
                 showToast(error.message || '系統發生錯誤，請稍後再試');
@@ -156,22 +181,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadLeaderboard() {
     try {
-        const res = await fetchAPI({ action: 'leaderboard' });
+        const data = await supabaseFetch('MGM?select=Name,ClickCount&order=ClickCount.desc&limit=10');
         const loading = document.getElementById('leaderboard-loading');
         const container = document.getElementById('leaderboard-container');
         
         if (loading) loading.classList.add('hidden');
         if (!container) return;
 
-        if (res.success && res.leaderboard && res.leaderboard.length > 0) {
+        if (data && data.length > 0) {
             let html = '';
-            res.leaderboard.forEach((item, index) => {
-                const rankClass = item.rank <= 3 ? `rank-${item.rank}` : '';
+            let rank = 1;
+            let prevClicks = -1;
+            
+            data.forEach((row, index) => {
+                if (row.ClickCount !== prevClicks) {
+                    rank = index + 1;
+                    prevClicks = row.ClickCount;
+                }
+                const rankClass = rank <= 3 ? `rank-${rank}` : '';
+                const maskedName = maskName(row.Name);
+                
                 html += `
                     <div class="leaderboard-item ${rankClass}">
-                        <div class="rank-badge">${item.rank}</div>
-                        <div class="leaderboard-name">${item.name}</div>
-                        <div class="leaderboard-clicks">${item.clicks} 點</div>
+                        <div class="rank-badge">${rank}</div>
+                        <div class="leaderboard-name">${maskedName}</div>
+                        <div class="leaderboard-clicks">${row.ClickCount} 點</div>
                     </div>
                 `;
             });
@@ -190,35 +224,59 @@ async function loadLeaderboard() {
 
 async function processClick(uuid) {
     try {
-        const res = await fetchAPI({ action: 'click', uuid });
-        if (res.success) {
+        const data = await supabaseFetch(`MGM?UUID=eq.${encodeURIComponent(uuid)}`);
+        if (data.length > 0) {
+            const currentClicks = data[0].ClickCount || 0;
+            const name = data[0].Name;
+            
+            await supabaseFetch(`MGM?UUID=eq.${encodeURIComponent(uuid)}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ ClickCount: currentClicks + 1 })
+            });
+            
             const msgElement = document.getElementById('referral-message');
-            msgElement.innerText = `您已成功為【${res.name}】增加 1 點人氣！`;
-            document.getElementById('referral-success').classList.remove('hidden');
+            if(msgElement) {
+                msgElement.innerText = `您已成功為【${name}】增加 1 點人氣！`;
+                document.getElementById('referral-success').classList.remove('hidden');
+            }
         } else {
-            console.log("Click tracking failed or inactive:", res.message);
+            console.log("Click tracking failed or inactive");
         }
     } catch (error) {
         console.error("Failed to track click:", error);
     }
 }
 
-async function fetchAPI(payload) {
-    const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'text/plain',
-        },
-        body: JSON.stringify(payload)
+async function supabaseFetch(endpoint, options = {}) {
+    if (!options.headers) options.headers = {};
+    Object.assign(options.headers, {
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        "Content-Type": "application/json",
+        "Prefer": "return=representation"
     });
-
-    // Handle HTML error pages (e.g. Google Login redirect due to permission failure)
-    const contentType = response.headers.get("content-type");
-    if (contentType && contentType.indexOf("text/html") !== -1) {
-        throw new Error("API 權限錯誤：請確認是否已自行使用您的 Google 帳號部署 Apps Script，並更新 API_URL。");
+    
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/${endpoint}`, options);
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.message || response.statusText);
     }
+    return response.json();
+}
 
-    return await response.json();
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
+function maskName(name) {
+    if (!name) return "";
+    if (name.length <= 2) {
+        return name.substring(0, 1) + "O";
+    }
+    return name.substring(0, 1) + "O" + name.substring(2);
 }
 
 function setLoading(btnElement, isLoading) {
