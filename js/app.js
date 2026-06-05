@@ -255,10 +255,10 @@ async function initFingerprintAndProcess(uuid) {
 
 async function processClick(uuid, visitorId) {
     try {
-        // 使用 Supabase RPC 來進行原子化點擊加一，並記錄 visitor_id 避免重複
+        // 使用 Supabase RPC 來進行原子化點擊加一，並記錄 visitor_id 避免重複 (由於規則不限制重複點擊，改用隨機 UUID)
         const result = await supabaseFetch('rpc/increment_click', {
             method: 'POST',
-            body: JSON.stringify({ target_uuid: uuid, v_id: visitorId })
+            body: JSON.stringify({ target_uuid: uuid, v_id: generateUUID() })
         });
         
         // 如果找不到該 UUID 或重複點擊，RPC 可能會回傳空陣列
@@ -279,10 +279,10 @@ async function processClick(uuid, visitorId) {
 
 async function processStay(uuid, visitorId) {
     try {
-        // 使用 Supabase RPC 來進行原子化加一，並記錄 visitor_id 避免重複
+        // 使用 Supabase RPC 來進行原子化加一，並記錄 visitor_id 避免重複 (由於規則不限制重複點擊，改用隨機 UUID)
         const result = await supabaseFetch('rpc/increment_stay', {
             method: 'POST',
-            body: JSON.stringify({ target_uuid: uuid, v_id: visitorId })
+            body: JSON.stringify({ target_uuid: uuid, v_id: generateUUID() })
         });
         console.log("3分鐘停留追蹤成功");
     } catch (error) {
