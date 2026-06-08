@@ -38,7 +38,7 @@
                 <div class="user-info">
                     <div class="avatar" style="background: var(--accent-red);">🚀</div>
                     <div class="user-meta">
-                        <div class="name">立即報名</div>
+                        <div class="name">立即參加抽獎</div>
                         <div class="time">產生專屬招募連結</div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                         <input type="text" id="generated-link" class="jx-input" readonly>
                         <button id="btn-copy" class="btn-copy" title="複製連結">複製</button>
                     </div>
-                    <p style="font-size: 13px; font-weight: bold; color: var(--text-muted);">請複製上方連結傳給好友，好友點擊即可為您增加 1 點人氣！</p>
+                    <p style="font-size: 13px; font-weight: bold; color: var(--text-muted);">請複製上方連結傳給好友，好友點擊即可為您增加 1 次人氣！</p>
                 </div>
             </div>
 
@@ -150,10 +150,15 @@
     <div id="link-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3>🎉 專屬連結產生成功！</h3>
-            <p>請複製下方連結，傳送給您的好友。<br>當好友透過連結進入，系統就會為您增加 1 點人氣！</p>
+            <p>請複製下方連結，傳送給您的好友。<br>當好友透過連結進入，系統就會為您增加 1 次人氣！</p>
             <div class="copy-box" style="margin: 20px 0;">
                 <input type="text" id="modal-generated-link" class="jx-input" readonly>
                 <button id="modal-btn-copy" class="btn-copy" style="white-space: nowrap;">複製</button>
+            </div>
+            <div class="share-actions" style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
+                <button id="btn-share-line" class="btn-share share-line">LINE</button>
+                <button id="btn-share-fb" class="btn-share share-fb">FB</button>
+                <button id="btn-share-ig" class="btn-share share-ig">IG</button>
             </div>
             <button id="btn-close-modal" class="btn-outline-pill" style="width: 100%; border: 3px solid var(--text-main); background: white;">關閉</button>
         </div>

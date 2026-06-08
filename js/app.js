@@ -63,6 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                 });
 
+                localStorage.setItem('my_uuid', uuid);
+
                 let basePath = window.location.pathname.replace('register.html', '');
                 if(!basePath.endsWith('/')) basePath += '/';
                 const origin = window.location.origin === "file://" || window.location.origin === "null" ? "https://hub-google.github.io" : window.location.origin;
@@ -174,6 +176,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Video Ad Overlay
+    const adOverlay = document.getElementById('video-ad-overlay');
+    if (adOverlay) {
+        const btnCloseAd = document.getElementById('btn-close-ad');
+        if (btnCloseAd) {
+            btnCloseAd.addEventListener('click', () => {
+                adOverlay.classList.add('hidden');
+            });
+        }
+    }
+
+    // Share buttons
+    const btnShareLine = document.getElementById('btn-share-line');
+    const btnShareFb = document.getElementById('btn-share-fb');
+    const btnShareIg = document.getElementById('btn-share-ig');
+
+    if (btnShareLine) {
+        btnShareLine.addEventListener('click', () => {
+            const url = encodeURIComponent(document.getElementById('modal-generated-link').value);
+            window.open(`https://line.me/R/msg/text/?${url}`, '_blank');
+        });
+    }
+    if (btnShareFb) {
+        btnShareFb.addEventListener('click', () => {
+            const url = encodeURIComponent(document.getElementById('modal-generated-link').value);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+        });
+    }
+    if (btnShareIg) {
+        btnShareIg.addEventListener('click', () => {
+            const linkInput = document.getElementById('modal-generated-link');
+            navigator.clipboard.writeText(linkInput.value).then(() => {
+                alert('連結已複製！請前往 IG 貼上分享。');
+                window.open('https://www.instagram.com/', '_blank');
+            });
+        });
+    }
+
     // Load Leaderboard on page load if container exists
     if (document.getElementById('leaderboard-container')) {
         loadLeaderboard();
@@ -182,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadLeaderboard() {
     try {
-        const data = await supabaseFetch('MGM?select=name,click_count&order=click_count.desc&limit=10');
+        const data = await supabaseFetch('MGM?select=uuid,name,click_count&order=click_count.desc');
         const loading = document.getElementById('leaderboard-loading');
         const container = document.getElementById('leaderboard-container');
         
@@ -191,6 +231,9 @@ async function loadLeaderboard() {
 
         if (data && data.length > 0) {
             let html = '';
+            let myRankHtml = '';
+            const myUuid = localStorage.getItem('my_uuid');
+
             let rank = 1;
             let prevClicks = -1;
             
@@ -199,18 +242,32 @@ async function loadLeaderboard() {
                     rank = index + 1;
                     prevClicks = row.click_count;
                 }
-                const rankClass = rank <= 3 ? `rank-${rank}` : '';
-                const maskedName = maskName(row.name);
+
+                if (row.uuid === myUuid) {
+                    const myMaskedName = maskName(row.name);
+                    myRankHtml = `
+                        <div class="leaderboard-item my-rank-item" style="border-color: var(--accent-red); background-color: #fff0f0; margin-bottom: 15px;">
+                            <div class="rank-badge" style="background-color: var(--accent-red); color: white; border-color: var(--accent-red);">${rank}</div>
+                            <div class="leaderboard-name" style="font-weight: 900; color: var(--accent-red);">${myMaskedName} (您)</div>
+                            <div class="leaderboard-clicks" style="color: var(--accent-red);">${row.click_count} 次</div>
+                        </div>
+                    `;
+                }
                 
-                html += `
-                    <div class="leaderboard-item ${rankClass}">
-                        <div class="rank-badge">${rank}</div>
-                        <div class="leaderboard-name">${maskedName}</div>
-                        <div class="leaderboard-clicks">${row.click_count} 點</div>
-                    </div>
-                `;
+                if (index < 10) {
+                    const rankClass = rank <= 3 ? `rank-${rank}` : '';
+                    const maskedName = maskName(row.name);
+                    
+                    html += `
+                        <div class="leaderboard-item ${rankClass}">
+                            <div class="rank-badge">${rank}</div>
+                            <div class="leaderboard-name">${maskedName}</div>
+                            <div class="leaderboard-clicks">${row.click_count} 次</div>
+                        </div>
+                    `;
+                }
             });
-            container.innerHTML = html;
+            container.innerHTML = myRankHtml + html;
             container.classList.remove('hidden');
         } else {
             container.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 10px;">目前尚無排行榜資料</div>';
@@ -266,7 +323,7 @@ async function processClick(uuid, visitorId) {
             const name = result[0].name;
             const msgElement = document.getElementById('referral-message');
             if(msgElement) {
-                msgElement.innerText = `您已成功為【${name}】增加 1 點人氣！`;
+                msgElement.innerText = `您已成功為【${name}】增加 1 次人氣！`;
                 document.getElementById('referral-success').classList.remove('hidden');
             }
         } else {

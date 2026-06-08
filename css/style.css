@@ -557,3 +557,48 @@ ul { list-style: none; }
     margin-left: 8px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* Video Ad Overlay */
+.btn-close-ad {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--text-main);
+    color: white;
+    border: 2px solid white;
+    font-weight: 900;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--border-color);
+    z-index: 10;
+}
+.ad-content {
+    position: relative;
+    background: transparent;
+    max-width: 90%;
+    width: 600px;
+    text-align: center;
+}
+
+/* Share Buttons */
+.btn-share {
+    flex: 1;
+    height: 36px;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-weight: 900;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--shadow-color);
+}
+.btn-share:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--shadow-color);
+}
+.share-line { background-color: #06C755; }
+.share-fb { background-color: #1877F2; }
+.share-ig { background-color: #E1306C; }
