@@ -11,6 +11,17 @@
     <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
+    <!-- Video Ad Overlay -->
+    <div id="video-ad-overlay" class="modal-overlay">
+        <div class="ad-content">
+            <button id="btn-close-ad" class="btn-close-ad">X</button>
+            <video autoplay loop playsinline controls style="width: 100%; border-radius: 12px; max-height: 80vh;">
+                <source src="開場畫面.mp4" type="video/mp4">
+                您的瀏覽器不支援影片標籤。
+            </video>
+        </div>
+    </div>
+
     <div id="toast-container"></div>
     
     <!-- Top Navbar -->
@@ -35,11 +46,8 @@
         <!-- Videos Card -->
         <div class="jx-card">
             <div class="card-content" style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
-                <h3 class="video-title">活動宣傳影片 1</h3>
+                <h3 class="video-title">活動宣傳影片</h3>
                 <iframe width="100%" height="315" style="max-width: 560px; border-radius: 8px;" src="https://www.youtube.com/embed/09839DpTctU?si=EQKMIG_9juGSerMD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                <hr class="jx-divider" style="width: 100%; border-top: 2px dashed #e0e0e0; margin: 10px 0;">
-                <h3 class="video-title">活動宣傳影片 2</h3>
-                <iframe width="100%" height="315" style="max-width: 560px; border-radius: 8px;" src="https://www.youtube.com/embed/fJ9rUzIMcZQ?si=mJYWoUxFCcJzaJRO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
         </div>
 
@@ -55,7 +63,7 @@
                 </div>
             </div>
             <div class="card-content">
-                <h3 id="referral-message">您已成功為【分享者姓名】增加 1 點人氣！</h3>
+                <h3 id="referral-message">您已成功為【分享者姓名】增加 1 次人氣！</h3>
                 <p>您也可以點擊上方的「報名/查詢」，獲取專屬連結，邀請好友賺取豐富獎勵！</p>
             </div>
         </div>
@@ -102,7 +110,7 @@
                 <ul style="display: flex; flex-direction: column; gap: 15px;">
                     <li><strong>🥇 人氣第 1 名</strong>：iPhone 15 Pro + 專屬紀念品</li>
                     <li><strong>🥈 人氣第 2-5 名</strong>：Apple Watch + 紀念滑鼠墊</li>
-                    <li><strong>🎖️ 人氣達 50 點</strong>：超商電子禮券 100 元</li>
+                    <li><strong>🎖️ 人氣達 50 次</strong>：超商電子禮券 100 元</li>
                 </ul>
             </div>
 
@@ -132,7 +140,7 @@
         <!-- Big Navigation Buttons -->
         <div class="bottom-nav">
             <a href="register.html" class="btn-huge" style="background-color: var(--accent-yellow);">
-                ✍️ 立即報名 / 查詢進度 →
+                ✍️ 立即參加抽獎 / 查詢進度 →
             </a>
         </div>
     </div>
