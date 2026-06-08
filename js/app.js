@@ -180,10 +180,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const adOverlay = document.getElementById('video-ad-overlay');
     if (adOverlay) {
         const btnCloseAd = document.getElementById('btn-close-ad');
+        const adVideo = document.getElementById('ad-video');
+        
+        const closeAd = () => {
+            adOverlay.classList.add('hidden');
+        };
+
         if (btnCloseAd) {
-            btnCloseAd.addEventListener('click', () => {
-                adOverlay.classList.add('hidden');
-            });
+            btnCloseAd.addEventListener('click', closeAd);
+        }
+        if (adVideo) {
+            adVideo.addEventListener('ended', closeAd);
         }
     }
 
